@@ -16,8 +16,8 @@ npm i eslint@8.38.0 -DE
 
 ## Зависимости для разработки (`devDependencies`)
 
-- eslint@8.38.0
-- eslint-config-htmlacademy@9.0.0
+- eslint@8.38.0 +
+- eslint-config-htmlacademy@9.0.0 +
 - webpack@5.79.0 +
 - webpack-cli@5.0.1 +
 - webpack-dev-server@4.13.3 +
@@ -26,5 +26,5 @@ npm i eslint@8.38.0 -DE
 - @babel/core@7.21.4 +
 - @babel/preset-env@7.21.4 +
 - babel-loader@9.1.2 +
-- css-loader@6.7.3
-- style-loader@3.3.2
+- css-loader@6.7.3 +
+- style-loader@3.3.2 +
