@@ -4,6 +4,10 @@ import './view/filter-view.js';
 import './view/sort-view.js';
 import './view/list-view.js';
 import './view/card-view.js';
+import AppModel from './models/app-model.js';
+
+const appModel = new AppModel();
+console.log(appModel.getOfferGroup());
 
 /**
  *@type (BriefView)
