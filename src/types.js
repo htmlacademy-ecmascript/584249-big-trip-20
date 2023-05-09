@@ -3,13 +3,37 @@
  */
 
 /**
- * @typedef {import('./views/brief-view.js').default} BriefView
- * @typedef {import('./views/add-view.js').default} AddView
- * @typedef {import('./views/filter-view.js').default} FilterView
- * @typedef {import('./views/sort-view.js').default} SortView
- * @typedef {import('./views/list-view.js').default} ListView
- * @typedef {import('./views/card-view.js').default} CardView
-*/
+ * @typedef {import('./view/view.js').default} View
+ * @typedef {import('./view/brief-view.js').default} BriefView
+ * @typedef {import('./view/add-view.js').default} AddView
+ * @typedef {import('./view/filter-view.js').default} FilterView
+ * @typedef {import('./view/sort-view.js').default} SortView
+ * @typedef {import('./view/list-view.js').default} ListView
+ * @typedef {import('./view/card-view.js').default} CardView
+ * @typedef {import('./view/editor-view.js').default} EditorView
+ */
+
+/**
+ * @typedef ListViewState
+ * @prop {Array<PointViewState>} items
+ */
+
+/**
+ * @typedef PointViewState
+ * @prop {string} id
+ * @prop {Array<{value: PointType, isSelected: boolean}>} types
+ * @prop {Array<Destination & {isSelected: boolean}>} destinations
+ * @prop {string} startDateTime
+ * @prop {string} endDateTime
+ * @prop {string} startDate
+ * @prop {string} startTime
+ * @prop {string} endTime
+ * @prop {string} duration
+ * @prop {number} basePrice
+ * @prop {Array<Offer & {isSelected: boolean}>} offers
+ * @prop {boolean} isFavorite
+ * @prop {boolean} isEditable
+ */
 
 /**
  * @typedef {import('./models/model.js').default} Model
