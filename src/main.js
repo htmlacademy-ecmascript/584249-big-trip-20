@@ -4,44 +4,20 @@ import './view/filter-view.js';
 import './view/sort-view.js';
 import './view/list-view.js';
 import './view/card-view.js';
+
 import AppModel from './models/app-model.js';
 
+import BriefPresenter from './presenters/brief-presenter.js';
+import AddPresenter from './presenters/add-presenter.js';
+import SortPresenter from './presenters/sort-presenter.js';
+import FilterPresenter from './presenters/filter-presenter.js';
+import ListPresenter from './presenters/list-presenter.js';
+
 const appModel = new AppModel();
-console.log(appModel.getOfferGroup());
 
-/**
- *@type (BriefView)
- */
-const briefView = document.querySelector('brief-view');
+new BriefPresenter(document.querySelector('brief-view'));
+new AddPresenter(document.querySelector('add-view'));
+new SortPresenter(document.querySelector('sort-view'));
+new FilterPresenter(document.querySelector('filter-view'));
+new ListPresenter(document.querySelector('list-view'), appModel);
 
-/**
- *@type (AddView)
- */
-const addView = document.querySelector('add-view');
-
-/**
- *@type (FilterView)
- */
-const filterView = document.querySelector('filter-view');
-
-/**
- *@type (SortView)
- */
-const sortView = document.querySelector('sort-view');
-
-/**
- *@type (SortView)
- */
-const listView = document.querySelector('list-view');
-
-/**
- *@type (SortView)
- */
-const cardView = document.querySelector('card-view');
-
-briefView.render();
-addView.render();
-filterView.render();
-sortView.render();
-listView.render();
-cardView.render();
