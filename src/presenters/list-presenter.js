@@ -92,8 +92,21 @@ class ListPresenter extends Presenter {
 
     };
 
+    /**
+     * @param {CustomParam & {target: CardView}} event
+     */
+
+    const handleViewFavorite = (event) => {
+      const card = event.target;
+      const point = card.state;
+
+      point.isFavorite = !point.isFavorite;
+      card.render();
+    };
+
     this.view.addEventListener('open', handleViewOpen);
     this.view.addEventListener('close', handleViewClose);
+    this.view.addEventListener('favorite', handleViewFavorite);
   }
 }
 
