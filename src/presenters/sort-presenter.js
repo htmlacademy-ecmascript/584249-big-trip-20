@@ -6,9 +6,20 @@ import Presenter from './presenter.js';
 class SortPresenter extends Presenter {
   /**
    * @override
+   * @returns {SortViewState}
    */
   createViewState() {
-    // TODO: SortViewState
+    /**
+     * @type {Array<SortType>}
+     */
+    const types = ['day', 'event', 'offers', 'price', 'time'];
+    const items = types.map((it) => ({
+      value: it,
+      isSelected: it === 'day',
+      isDisabled: it === 'event' || it === 'offers'
+    }));
+
+    return {items};
   }
 }
 
