@@ -13,6 +13,7 @@ class EditorView extends View {
     super();
 
     this.addEventListener('click', this.handleClick);
+    this.addEventListener('input', this.handleInput);
   }
 
   connectedCallback() {
@@ -35,7 +36,6 @@ class EditorView extends View {
   }
 
   /**
-   *
    * @param {KeyboardEvent & {target: Element}} event
    */
 
@@ -46,6 +46,14 @@ class EditorView extends View {
   }
 
   /**
+   * @param {InputEvent} event
+   */
+
+  handleInput(event) {
+    this.notify('edit', event.target);
+  }
+
+  /**
    * @override
    */
   createHtml() {
@@ -53,7 +61,7 @@ class EditorView extends View {
       <form class="event event--edit" action="#" method="post">
         <header class="event__header">
           ${this.createTypeFieldHtml()}
-          ${this.createDestinationHtml()}
+          ${this.createDestinationFieldHtml()}
           ${this.createScheduleFieldHtml()}
           ${this.createPriceFieldHtml()}
           ${this.createSubmitButtonHtml()}
@@ -62,7 +70,7 @@ class EditorView extends View {
         </header>
         <section class="event__details">
           ${this.createOfferListFieldHtml()}
-          ${this.createDestinationFieldHtml()}
+          ${this.createDestinationHtml()}
         </section>
       </form>
     `;
@@ -77,32 +85,32 @@ class EditorView extends View {
 
     return html`
         <div class="event__type-wrapper">
-        <label class="event__type  event__type-btn" for="event-type-toggle-1">
-          <span class="visually-hidden">Choose event type</span>
-          <img class="event__type-icon" width="17" height="17" src="img/icons/${type.value}.png" alt="Event type icon">
-        </label>
-        <input class="event__type-toggle  visually-hidden" id="event-type-toggle-1" type="checkbox">
+          <label class="event__type  event__type-btn" for="event-type-toggle-1">
+            <span class="visually-hidden">Choose event type</span>
+            <img class="event__type-icon" width="17" height="17" src="img/icons/${type.value}.png" alt="Event type icon">
+          </label>
+          <input class="event__type-toggle  visually-hidden" id="event-type-toggle-1" type="checkbox">
 
-        <div class="event__type-list">
-          <fieldset class="event__type-group">
-            <legend class="visually-hidden">Event type</legend>
+          <div class="event__type-list">
+            <fieldset class="event__type-group">
+              <legend class="visually-hidden">Event type</legend>
 
-            ${point.types.map((it) => html`
-            <div class="event__type-item">
-              <input id="event-type-${it.value}-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${it.value}" ${it.isSelected ? 'checked' : ''}>
-              <label class="event__type-label  event__type-label--${it.value}" for="event-type-${it.value}-1">${it.value}</label>
-            </div>
-            `)}
-          </fieldset>
+              ${point.types.map((it) => html`
+              <div class="event__type-item">
+                <input id="event-type-${it.value}-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${it.value}" ${it.isSelected ? 'checked' : ''}>
+                <label class="event__type-label  event__type-label--${it.value}" for="event-type-${it.value}-1">${it.value}</label>
+              </div>
+              `)}
+            </fieldset>
+          </div>
         </div>
-      </div>
     `;
   }
 
   /**
    * @return {SafeHtml}
    */
-  createDestinationHtml() {
+  createDestinationFieldHtml() {
     const point = this.state;
     const type = point.types.find((it) => it.isSelected);
     const destination = point.destinations.find((it) => it.isSelected);
@@ -214,25 +222,36 @@ class EditorView extends View {
   /**
    * @return {SafeHtml}
    */
-  createDestinationFieldHtml() {
+  createDestinationHtml() {
     const point = this.state;
     const destination = point.destinations.find((it) => it.isSelected);
 
     return html`
-      <section class="event__section  event__section--destination">
+      <section ${destination ? '' : 'hidden'} class="event__section  event__section--destination">
         <h3 class="event__section-title  event__section-title--destination">Destination</h3>
-        <p class="event__destination-description">${destination.description}</p>
+        <p class="event__destination-description">${destination?.description}</p>
 
         <div class="event__photos-container">
         <div class="event__photos-tape">
 
-          ${destination.pictures.map((it) => html`
+          ${destination?.pictures.map((it) => html`
             <img class="event__photo" src="${it.src}" alt="${it.description}">
           `)}
         </div>
       </div>
       </section>
     `;
+  }
+
+  renderTypeAndRelatedFields() {
+    this.render('.event__type-wrapper', this.createTypeFieldHtml());
+    this.render('event__field-group--destination', this.createDestinationFieldHtml());
+    this.render('event__section--destination', this.createDestinationHtml());
+    this.render('.event__section-offers', this.createOfferListFieldHtml());
+  }
+
+  renderDestination() {
+    this.render('.event__section--destination', this.createDestinationHtml());
   }
 }
 
