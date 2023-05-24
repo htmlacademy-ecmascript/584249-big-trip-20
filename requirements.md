@@ -11,7 +11,7 @@ npm i eslint@8.38.0 -DE
 ## Зависимости приложения (`dependencies`)
 
 - dayjs@1.11.7 +
-- flatpickr@4.6.13
+- flatpickr@4.6.13 +
 - he@1.2.0
 
 ## Зависимости для разработки (`devDependencies`)
