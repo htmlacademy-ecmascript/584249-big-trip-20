@@ -4,6 +4,7 @@ import './view/filter-view.js';
 import './view/sort-view.js';
 import './view/list-view.js';
 import './view/card-view.js';
+import './view/placeholder-view.js';
 
 import AppModel from './models/app-model.js';
 
@@ -12,6 +13,7 @@ import AddPresenter from './presenters/add-presenter.js';
 import SortPresenter from './presenters/sort-presenter.js';
 import FilterPresenter from './presenters/filter-presenter.js';
 import ListPresenter from './presenters/list-presenter.js';
+import PlaceholderPresenter from './presenters/placeholder-presenter.js';
 
 const appModel = new AppModel();
 
@@ -20,4 +22,5 @@ new AddPresenter(document.querySelector('add-view'));
 new SortPresenter(document.querySelector('sort-view'));
 new FilterPresenter(document.querySelector('filter-view'));
 new ListPresenter(document.querySelector('list-view'), appModel);
+new PlaceholderPresenter(document.querySelector('placeholder-view'), appModel);
 
