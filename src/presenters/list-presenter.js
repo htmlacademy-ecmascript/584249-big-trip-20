@@ -208,7 +208,7 @@ class ListPresenter extends Presenter {
 
     event.preventDefault();
 
-    if (oninput.isDraft) {
+    if (point.isDraft) {
       this.model.addPoint(this.serializePointViewState(point));
     } else {
       this.model.updatePoint(this.serializePointViewState(point));

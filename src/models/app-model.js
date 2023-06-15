@@ -54,6 +54,9 @@ class AppModel extends Model {
    */
   addPoint(point) {
     const adaptedPoint = AppModel.adaptPointForServer(point);
+
+    adaptedPoint.id = crypto.randomUUID();
+    this.#points.push(adaptedPoint);
   }
 
   /**
