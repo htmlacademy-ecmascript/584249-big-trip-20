@@ -18,6 +18,7 @@ class EditorView extends View {
 
     this.addEventListener('click', this.handleClick);
     this.addEventListener('input', this.handleInput);
+    this.addEventListener('submit', this.handleSubmit);
   }
 
   connectedCallback() {
@@ -55,6 +56,18 @@ class EditorView extends View {
   handleEvent(event) {
     if (event.key === 'Escape') {
       this.notify('close');
+    }
+  }
+
+  /**
+  *
+  * @param {SubmitEvent} event
+  */
+  handleSubmit(event) {
+    const actByDefault = this.notify('save');
+
+    if (!actByDefault) {
+      event.preventDefault();
     }
   }
 
@@ -172,7 +185,7 @@ class EditorView extends View {
           <span class="visually-hidden">Price</span>
           €
         </label>
-        <input class="event__input  event__input--price" id="event-price-1" type="text" name="event-price" value="${point.basePrice}">
+        <input class="event__input  event__input--price" id="event-price-1" type="number" min="1" name="event-price" value="${point.basePrice}">
       </div>
     `;
   }
@@ -258,9 +271,9 @@ class EditorView extends View {
 
   renderTypeAndRelatedFields() {
     this.render('.event__type-wrapper', this.createTypeFieldHtml());
-    this.render('event__field-group--destination', this.createDestinationFieldHtml());
-    this.render('event__section--destination', this.createDestinationHtml());
-    this.render('.event__section-offers', this.createOfferListFieldHtml());
+    this.render('.event__field-group--destination', this.createDestinationFieldHtml());
+    this.render('.event__section--destination', this.createDestinationHtml());
+    this.render('.event__section--offers', this.createOfferListFieldHtml());
   }
 
   renderDestination() {
