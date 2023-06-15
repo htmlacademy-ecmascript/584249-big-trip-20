@@ -49,6 +49,18 @@ class AppModel extends Model {
     return adaptedPoints.filter(filterCallback).sort(callBackSort);
   }
 
+  /**
+   *
+   * @param {Point} point
+   */
+
+  updatePoint(point) {
+    const adaptedPoint = AppModel.adaptPointForServer(point);
+    const index = this.#points.findIndex((it) => it.id === adaptedPoint.id);
+
+    this.#points.splice(index, 1, adaptedPoint);
+  }
+
 
   /**
   * @return {Array<Destination>}
@@ -80,6 +92,25 @@ class AppModel extends Model {
       basePrice: point.base_price,
       offerIds: point.offers,
       isFavorite: point.is_favorite,
+    };
+  }
+
+  /**
+   *
+   * @param {Point} point
+   * @return {PointInSnakeCase}
+   */
+
+  static adaptPointForServer(point) {
+    return {
+      'id': point.id,
+      'type': point.type,
+      'destination': point.destinationId,
+      'date_from': point.startDateTime,
+      'date_to': point.endDateTime,
+      'base_price': point.basePrice,
+      'offers': point.offerIds,
+      'is_favorite': point.isFavorite
     };
   }
 }
