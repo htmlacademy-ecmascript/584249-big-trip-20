@@ -65,6 +65,7 @@
 /**
  * @typedef ListViewState
  * @prop {Array<PointViewState>} items
+ * @prop {string} id
  */
 
 /**
@@ -82,6 +83,7 @@
  * @prop {Array<Offer & {isSelected?: boolean}>} offers
  * @prop {boolean} isFavorite
  * @prop {boolean} isEditable
+ * @prop {boolean} isDraft
  */
 
 /**

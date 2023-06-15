@@ -77,7 +77,8 @@ class EditorView extends View {
   * @param {Event} event
   */
   handleReset(event) {
-    const actByDefault = this.notify('delete');
+    const point = this.state;
+    const actByDefault = this.notify(point.isDraft ? 'close' : 'delete');
 
     if (!actByDefault) {
       event.preventDefault();
@@ -159,7 +160,7 @@ class EditorView extends View {
         <label class="event__label  event__type-output" for="event-destination-1">
           ${type.value}
         </label>
-        <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${destination.name}" list="destination-list-1">
+        <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${destination?.name}" list="destination-list-1">
         <datalist id="destination-list-1">
         ${point.destinations.map((it) => html`
         <option value="${it.name}"></option>
@@ -216,6 +217,14 @@ class EditorView extends View {
    * @return {SafeHtml}
    */
   createResetButtonHtml() {
+    const point = this.state;
+
+    if (point.isDraft) {
+      return html`
+        <button class="event__reset-btn" type="reset">Cancel</button>
+      `;
+    }
+
     return html`
       <button class="event__reset-btn" type="reset">Delete</button>
     `;
@@ -225,9 +234,15 @@ class EditorView extends View {
    * @return {SafeHtml}
    */
   createCloseButtonHtml() {
+    const point = this.state;
+
+    if (point.isDraft) {
+      return '';
+    }
+
     return html`
       <button class="event__rollup-btn" type="button">
-        <span class="visually-hidden">Open event</span>
+        <span class="visually-hidden">Close event</span>
       </button>
     `;
   }
