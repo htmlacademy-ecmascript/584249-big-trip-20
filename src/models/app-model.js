@@ -4,10 +4,10 @@ import destinations from '../data/destinations.json';
 import offerGroup from '../data/offers.json';
 
 class AppModel extends Model {
+  #apiService;
   #points = points;
   #destinations = destinations;
   #offerGroup = offerGroup;
-
   /**
    *@type {Record<FilterType, (it: Point) => boolean>}
   */
@@ -28,6 +28,15 @@ class AppModel extends Model {
     price: (a, b) => a.basePrice - b.basePrice,
     offers: () => 0,
   };
+
+  /**
+   * @param {ApiService} apiService
+   */
+  constructor(apiService) {
+    super();
+
+    this.#apiService = apiService;
+  }
 
   /**
    * @param {number} point

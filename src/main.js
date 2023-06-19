@@ -6,6 +6,7 @@ import './view/list-view.js';
 import './view/card-view.js';
 import './view/placeholder-view.js';
 
+import ApiService from './services/api-service.js';
 import AppModel from './models/app-model.js';
 
 import BriefPresenter from './presenters/brief-presenter.js';
@@ -15,7 +16,8 @@ import FilterPresenter from './presenters/filter-presenter.js';
 import ListPresenter from './presenters/list-presenter.js';
 import PlaceholderPresenter from './presenters/placeholder-presenter.js';
 
-const appModel = new AppModel();
+const apiService = new ApiService({authorization: 'Basic eo0w590ik298892'});
+const appModel = new AppModel(apiService);
 
 new BriefPresenter(document.querySelector('brief-view'));
 new AddPresenter(document.querySelector('add-view'));
