@@ -27,5 +27,3 @@ appModel.load().then(() => {
   new ListPresenter(document.querySelector('list-view'), appModel);
   new PlaceholderPresenter(document.querySelector('placeholder-view'), appModel);
 });
-
-

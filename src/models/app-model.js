@@ -47,14 +47,18 @@ class AppModel extends Model {
     this.#apiService = apiService;
   }
 
+  /**
+  * @return {Promise<void>}
+  */
   async load() {
     const data = await Promise.all([
       this.#apiService.getPoints(),
-      this.#apiService.getOfferGroups(),
       this.#apiService.getDestinations(),
+      this.#apiService.getOfferGroups(),
     ]);
 
     const [points, destinations, offerGroups] = data;
+
     this.#points = points;
     this.#destinations = destinations;
     this.#offerGroups = offerGroups;
@@ -120,7 +124,7 @@ class AppModel extends Model {
   /**
   * @return {Array<OfferGroup>}
   */
-  getOfferGroup() {
+  getOfferGroups() {
     return structuredClone(this.#offerGroups);
   }
 

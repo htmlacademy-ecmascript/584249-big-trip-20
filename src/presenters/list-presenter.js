@@ -31,8 +31,6 @@ class ListPresenter extends Presenter {
       items.unshift(this.createPointViewState(draftPoint));
     }
 
-    const [{isEditable, isDraft}] = items;
-
     return {items};
   }
 
@@ -41,7 +39,7 @@ class ListPresenter extends Presenter {
    * @return {PointViewState}
    */
   createPointViewState(point) {
-    const offerGroups = this.model.getOfferGroup();
+    const offerGroups = this.model.getOfferGroups();
     const types = offerGroups.map((it) => ({
       value: it.type,
       isSelected: it.type === point.type,
