@@ -19,11 +19,12 @@ import PlaceholderPresenter from './presenters/placeholder-presenter.js';
 const apiService = new ApiService({authorization: 'Basic eo0w590ik298892'});
 const appModel = new AppModel(apiService);
 
+new PlaceholderPresenter(document.querySelector('placeholder-view'), appModel);
+
 appModel.load().then(() => {
   new BriefPresenter(document.querySelector('brief-view'));
   new AddPresenter(document.querySelector('add-view'));
   new SortPresenter(document.querySelector('sort-view'));
   new FilterPresenter(document.querySelector('filter-view'));
   new ListPresenter(document.querySelector('list-view'), appModel);
-  new PlaceholderPresenter(document.querySelector('placeholder-view'), appModel);
 });
