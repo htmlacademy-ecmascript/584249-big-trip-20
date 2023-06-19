@@ -12,6 +12,11 @@ class PlaceholderPresenter extends Presenter {
    * @type {Record<FilterType, string>}
    */
 
+  /**
+   * @type {Error}
+   */
+  modelError;
+
   textMap = {
     everything: 'Click New Event to create your first point',
     future: 'There are no future events now',
@@ -37,6 +42,12 @@ class PlaceholderPresenter extends Presenter {
       };
     }
 
+    if (this.modelError) {
+      return {
+        text: String(this.modelError),
+      };
+    }
+
     return {
       text: 'Loading...',
     };
@@ -47,10 +58,19 @@ class PlaceholderPresenter extends Presenter {
  */
   addEventListeners() {
     this.model.addEventListener('load', this.handleModelLoad.bind(this));
+    this.model.addEventListener('error', this.handleModelError.bind(this));
   }
 
   handleModelLoad() {
     this.isModelLoaded = true;
+    this.updateView();
+  }
+
+  /**
+   * @param {CustomEvent<Error>} event
+   */
+  handleModelError(event) {
+    this.modelError = event.detail;
     this.updateView();
   }
 }

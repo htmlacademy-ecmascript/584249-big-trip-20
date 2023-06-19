@@ -51,19 +51,24 @@ class AppModel extends Model {
   * @return {Promise<void>}
   */
   async load() {
-    const data = await Promise.all([
-      this.#apiService.getPoints(),
-      this.#apiService.getDestinations(),
-      this.#apiService.getOfferGroups(),
-    ]);
+    try {
+      const data = await Promise.all([
+        this.#apiService.getPoints(),
+        this.#apiService.getDestinations(),
+        this.#apiService.getOfferGroups(),
+      ]);
 
-    const [points, destinations, offerGroups] = data;
+      const [points, destinations, offerGroups] = data;
 
-    this.#points = points;
-    this.#destinations = destinations;
-    this.#offerGroups = offerGroups;
+      this.#points = points;
+      this.#destinations = destinations;
+      this.#offerGroups = offerGroups;
+      this.notify('load');
 
-    this.notify('load');
+    } catch(error) {
+      this.notify('error', error);
+      throw error;
+    }
   }
 
   /**
