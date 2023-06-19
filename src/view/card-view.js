@@ -77,7 +77,7 @@ class CardView extends View {
     const destination = point.destinations.find((it) => it.isSelected);
 
     return html`
-      <h3 class="event__title">${type.value} ${destination.name}</h3>
+      <h3 class="event__title">${type.value} ${destination?.name}</h3>
     `;
   }
 

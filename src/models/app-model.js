@@ -1,12 +1,21 @@
 import Model from './model.js';
-import points from '../data/points.json';
-import destinations from '../data/destinations.json';
-import offerGroup from '../data/offers.json';
 
 class AppModel extends Model {
-  #points = points;
-  #destinations = destinations;
-  #offerGroup = offerGroup;
+  #apiService;
+  /**
+   * @type {Array<PointInSnakeCase>}
+   */
+  #points;
+
+  /**
+   * @type {Array<Destination>}
+   */
+  #destinations;
+
+  /**
+   * @type {Array<OfferGroup>}
+   */
+  #offerGroups;
 
   /**
    *@type {Record<FilterType, (it: Point) => boolean>}
@@ -30,6 +39,39 @@ class AppModel extends Model {
   };
 
   /**
+   * @param {ApiService} apiService
+   */
+  constructor(apiService) {
+    super();
+
+    this.#apiService = apiService;
+  }
+
+  /**
+  * @return {Promise<void>}
+  */
+  async load() {
+    try {
+      const data = await Promise.all([
+        this.#apiService.getPoints(),
+        this.#apiService.getDestinations(),
+        this.#apiService.getOfferGroups(),
+      ]);
+
+      const [points, destinations, offerGroups] = data;
+
+      this.#points = points;
+      this.#destinations = destinations;
+      this.#offerGroups = offerGroups;
+      this.notify('load');
+
+    } catch(error) {
+      this.notify('error', error);
+      throw error;
+    }
+  }
+
+  /**
    * @param {number} point
    */
   static calcPointDuration(point) {
@@ -49,6 +91,35 @@ class AppModel extends Model {
     return adaptedPoints.filter(filterCallback).sort(callBackSort);
   }
 
+  /**
+   * @param {Point} point
+   */
+  addPoint(point) {
+    const adaptedPoint = AppModel.adaptPointForServer(point);
+
+    adaptedPoint.id = crypto.randomUUID();
+    this.#points.push(adaptedPoint);
+  }
+
+  /**
+   * @param {Point} point
+   */
+  updatePoint(point) {
+    const adaptedPoint = AppModel.adaptPointForServer(point);
+    const index = this.#points.findIndex((it) => it.id === adaptedPoint.id);
+
+    this.#points.splice(index, 1, adaptedPoint);
+  }
+
+  /**
+   * @param {string} id
+   */
+  deletePoint(id) {
+    const index = this.#points.findIndex((it) => it.id === id);
+
+    this.#points.splice(index, 1);
+  }
+
 
   /**
   * @return {Array<Destination>}
@@ -60,9 +131,8 @@ class AppModel extends Model {
   /**
   * @return {Array<OfferGroup>}
   */
-  getOfferGroup() {
-    // @ts ignore
-    return structuredClone(this.#offerGroup);
+  getOfferGroups() {
+    return structuredClone(this.#offerGroups);
   }
 
   /**
@@ -80,6 +150,25 @@ class AppModel extends Model {
       basePrice: point.base_price,
       offerIds: point.offers,
       isFavorite: point.is_favorite,
+    };
+  }
+
+  /**
+   *
+   * @param {Point} point
+   * @return {PointInSnakeCase}
+   */
+
+  static adaptPointForServer(point) {
+    return {
+      'id': point.id,
+      'type': point.type,
+      'destination': point.destinationId,
+      'date_from': point.startDateTime,
+      'date_to': point.endDateTime,
+      'base_price': point.basePrice,
+      'offers': point.offerIds,
+      'is_favorite': point.isFavorite
     };
   }
 }

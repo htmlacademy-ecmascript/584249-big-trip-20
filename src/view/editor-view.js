@@ -18,6 +18,8 @@ class EditorView extends View {
 
     this.addEventListener('click', this.handleClick);
     this.addEventListener('input', this.handleInput);
+    this.addEventListener('submit', this.handleSubmit);
+    this.addEventListener('reset', this.handleReset);
   }
 
   connectedCallback() {
@@ -55,6 +57,31 @@ class EditorView extends View {
   handleEvent(event) {
     if (event.key === 'Escape') {
       this.notify('close');
+    }
+  }
+
+  /**
+  *
+  * @param {SubmitEvent} event
+  */
+  handleSubmit(event) {
+    const actByDefault = this.notify('save');
+
+    if (!actByDefault) {
+      event.preventDefault();
+    }
+  }
+
+  /**
+  *
+  * @param {Event} event
+  */
+  handleReset(event) {
+    const point = this.state;
+    const actByDefault = this.notify(point.isDraft ? 'close' : 'delete');
+
+    if (!actByDefault) {
+      event.preventDefault();
     }
   }
 
@@ -133,7 +160,7 @@ class EditorView extends View {
         <label class="event__label  event__type-output" for="event-destination-1">
           ${type.value}
         </label>
-        <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${destination.name}" list="destination-list-1">
+        <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${destination?.name}" list="destination-list-1">
         <datalist id="destination-list-1">
         ${point.destinations.map((it) => html`
         <option value="${it.name}"></option>
@@ -172,7 +199,7 @@ class EditorView extends View {
           <span class="visually-hidden">Price</span>
           €
         </label>
-        <input class="event__input  event__input--price" id="event-price-1" type="text" name="event-price" value="${point.basePrice}">
+        <input class="event__input  event__input--price" id="event-price-1" type="number" min="1" name="event-price" value="${point.basePrice}">
       </div>
     `;
   }
@@ -190,6 +217,14 @@ class EditorView extends View {
    * @return {SafeHtml}
    */
   createResetButtonHtml() {
+    const point = this.state;
+
+    if (point.isDraft) {
+      return html`
+        <button class="event__reset-btn" type="reset">Cancel</button>
+      `;
+    }
+
     return html`
       <button class="event__reset-btn" type="reset">Delete</button>
     `;
@@ -199,9 +234,15 @@ class EditorView extends View {
    * @return {SafeHtml}
    */
   createCloseButtonHtml() {
+    const point = this.state;
+
+    if (point.isDraft) {
+      return '';
+    }
+
     return html`
       <button class="event__rollup-btn" type="button">
-        <span class="visually-hidden">Open event</span>
+        <span class="visually-hidden">Close event</span>
       </button>
     `;
   }
@@ -258,9 +299,9 @@ class EditorView extends View {
 
   renderTypeAndRelatedFields() {
     this.render('.event__type-wrapper', this.createTypeFieldHtml());
-    this.render('event__field-group--destination', this.createDestinationFieldHtml());
-    this.render('event__section--destination', this.createDestinationHtml());
-    this.render('.event__section-offers', this.createOfferListFieldHtml());
+    this.render('.event__field-group--destination', this.createDestinationFieldHtml());
+    this.render('.event__section--destination', this.createDestinationHtml());
+    this.render('.event__section--offers', this.createOfferListFieldHtml());
   }
 
   renderDestination() {

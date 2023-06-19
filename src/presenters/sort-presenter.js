@@ -17,7 +17,7 @@ class SortPresenter extends Presenter {
     /**
      * @type {Array<SortType>}
      */
-    const types = ['day', 'event', 'offers', 'price', 'time'];
+    const types = ['day', 'event', 'time', 'price', 'offers'];
     const items = types.map((it) => ({
       value: it,
       isSelected: it === sort,

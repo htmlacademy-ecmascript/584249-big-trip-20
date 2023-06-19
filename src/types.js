@@ -65,6 +65,7 @@
 /**
  * @typedef ListViewState
  * @prop {Array<PointViewState>} items
+ * @prop {string} id
  */
 
 /**
@@ -82,12 +83,13 @@
  * @prop {Array<Offer & {isSelected?: boolean}>} offers
  * @prop {boolean} isFavorite
  * @prop {boolean} isEditable
+ * @prop {boolean} isDraft
  */
 
 /**
  * @typedef PlaceholderViewState
  * @prop {string} text
- * @prop {boolean} isHidden
+ * @prop {boolean} [isHidden]
  */
 
 /**
@@ -100,6 +102,18 @@
 /**
  * @typedef {import('./models/model.js').default} Model
  * @typedef {import('./models/app-model.js').default} AppModel
+ */
+
+/**
+ * @typedef {import('./services/service.js').default} Service
+ * @typedef {import('./services/api-service.js').default} ApiService
+ */
+
+/**
+ * @typedef ServiceOptions
+ * @prop {string} baseUrl
+ * @prop {number} minResponseTime
+ * @prop {string} authorization
  */
 
 /**
