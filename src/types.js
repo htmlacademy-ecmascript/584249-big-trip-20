@@ -16,17 +16,18 @@
  * @typedef {import('./view/card-view.js').default} CardView
  * @typedef {import('./view/editor-view.js').default} EditorView
  * @typedef {import('./view/placeholder-view.js').default} PlaceholderView
+ * @typedef {import('./view/overlay-view.js').default} OverlayView
  */
 
 /**
- * @typedef {BriefViewState}
+ * @typedef BriefViewState
  * @prop {string} places
  * @prop {string} dates
  * @prop {string} cost
  */
 
 /**
- * @typedef {AddViewState}
+ * @typedef AddViewState
  * @prop {boolean} isDisabled
  */
 
@@ -65,7 +66,6 @@
 /**
  * @typedef ListViewState
  * @prop {Array<PointViewState>} items
- * @prop {string} id
  */
 
 /**
@@ -84,12 +84,19 @@
  * @prop {boolean} isFavorite
  * @prop {boolean} isEditable
  * @prop {boolean} isDraft
+ * @prop {boolean} [isSaving]
+ * @prop {boolean} [isDeleting]
  */
 
 /**
  * @typedef PlaceholderViewState
  * @prop {string} text
  * @prop {boolean} [isHidden]
+ */
+
+/**
+ * @typedef OverlayViewState
+ * @prop {boolean} isActive
  */
 
 /**

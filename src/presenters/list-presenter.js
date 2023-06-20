@@ -137,13 +137,18 @@ class ListPresenter extends Presenter {
   /**
    * @param {CustomEvent & {target: CardView}} event
    */
-  handleViewFavorite(event) {
+  async handleViewFavorite(event) {
     const card = event.target;
     const point = card.state;
 
-    point.isFavorite = !point.isFavorite;
-    this.model.updatePoint(this.serializePointViewState(point));
-    card.render();
+    try {
+      point.isFavorite = !point.isFavorite;
+      await this.model.updatePoint(this.serializePointViewState(point));
+      card.render();
+
+    } catch {
+      card.shake();
+    }
   }
 
   /**
@@ -167,7 +172,7 @@ class ListPresenter extends Presenter {
         break;
       }
       case 'event-type': {
-        const offerGroups = this.model.getOfferGroup();
+        const offerGroups = this.model.getOfferGroups();
         const {offers} = offerGroups.find((it) => it.type === field.value);
 
         point.offers = offers;
@@ -200,31 +205,49 @@ class ListPresenter extends Presenter {
   /**
    * @param {CustomEvent<HTMLInputElement> & {target: EditorView}} event
    */
-  handleViewSave(event) {
+  async handleViewSave(event) {
     const editor = event.target;
     const point = editor.state;
 
-    event.preventDefault();
+    try {
+      event.preventDefault();
+      point.isSaving = true;
+      editor.renderSubmitButton();
 
-    if (point.isDraft) {
-      this.model.addPoint(this.serializePointViewState(point));
-    } else {
-      this.model.updatePoint(this.serializePointViewState(point));
+      if (point.isDraft) {
+        await this.model.addPoint(this.serializePointViewState(point));
+      } else {
+        await this.model.updatePoint(this.serializePointViewState(point));
+      }
+
+      this.handleViewClose();
+
+    } catch(error) {
+      point.isSaving = false;
+      editor.renderSubmitButton();
+      editor.shake();
     }
-
-    this.handleViewClose();
   }
 
   /**
    * @param {CustomEvent<HTMLInputElement> & {target: EditorView}} event
    */
-  handleViewDelete(event) {
+  async handleViewDelete(event) {
     const editor = event.target;
     const point = editor.state;
 
-    event.preventDefault();
-    this.model.deletePoint(point.id);
-    this.handleViewClose();
+    try {
+      event.preventDefault();
+      point.isDeleting = true;
+      editor.renderResetButton();
+      await this.model.deletePoint(point.id);
+      this.handleViewClose();
+
+    } catch {
+      point.isDeleting = false;
+      editor.renderResetButton();
+      editor.shake();
+    }
   }
 }
 
