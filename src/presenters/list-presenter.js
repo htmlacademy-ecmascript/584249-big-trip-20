@@ -172,7 +172,7 @@ class ListPresenter extends Presenter {
         break;
       }
       case 'event-type': {
-        const offerGroups = this.model.getOfferGroup();
+        const offerGroups = this.model.getOfferGroups();
         const {offers} = offerGroups.find((it) => it.type === field.value);
 
         point.offers = offers;

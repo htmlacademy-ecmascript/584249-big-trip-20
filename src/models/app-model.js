@@ -72,6 +72,7 @@ class AppModel extends Model {
   }
 
   /**
+   * @param {Point} point
    * @param {number} point
    */
   static calcPointDuration(point) {

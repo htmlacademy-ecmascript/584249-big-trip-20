@@ -3,7 +3,7 @@ import View from './view.js';
 import {createDatePickers, html} from '../utils.js';
 
 /**
- * @extends {View<ListViewState>}
+ * @extends {View<PointViewState>}
  * @implements {EventListenerObject}
  */
 class EditorView extends View {

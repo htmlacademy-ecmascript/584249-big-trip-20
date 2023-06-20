@@ -20,14 +20,14 @@
  */
 
 /**
- * @typedef {BriefViewState}
+ * @typedef BriefViewState
  * @prop {string} places
  * @prop {string} dates
  * @prop {string} cost
  */
 
 /**
- * @typedef {AddViewState}
+ * @typedef AddViewState
  * @prop {boolean} isDisabled
  */
 
@@ -66,7 +66,6 @@
 /**
  * @typedef ListViewState
  * @prop {Array<PointViewState>} items
- * @prop {string} id
  */
 
 /**
