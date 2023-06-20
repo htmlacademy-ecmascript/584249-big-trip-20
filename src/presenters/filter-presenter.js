@@ -35,7 +35,7 @@ class FilterPresenter extends Presenter {
   }
 
   /**
-  * @param {event & {target: {value: SortType}}} event
+  * @param {event & {target: {value: FilterType}}} event
   */
   handleViewChange(event) {
     /**
