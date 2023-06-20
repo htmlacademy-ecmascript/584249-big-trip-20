@@ -27,7 +27,7 @@ appModel.load().then(() => {
   new BriefPresenter(document.querySelector('brief-view'));
   new AddPresenter(document.querySelector('add-view'));
   new SortPresenter(document.querySelector('sort-view'));
-  new FilterPresenter(document.querySelector('filter-view'));
+  new FilterPresenter(document.querySelector('filter-view'), appModel);
   new ListPresenter(document.querySelector('list-view'), appModel);
   new OverlayPresenter(document.querySelector('overlay-view'), appModel);
 });
