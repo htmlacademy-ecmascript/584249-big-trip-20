@@ -84,6 +84,8 @@
  * @prop {boolean} isFavorite
  * @prop {boolean} isEditable
  * @prop {boolean} isDraft
+ * @prop {boolean} [isSaving]
+ * @prop {boolean} [isDeleting]
  */
 
 /**
